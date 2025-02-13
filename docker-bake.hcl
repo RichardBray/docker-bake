@@ -4,7 +4,6 @@ group "default" {
 
 # target "_common" {
 #   context = "."
-#   no-cache = true
 #   platforms = ["linux/amd64", "linux/arm64"]
 # }
 
@@ -17,7 +16,6 @@ target "webapp" {
     "org.label-schema.version" = "1.0"
   }
   platforms = ["linux/amd64", "linux/arm64"]
-  no-cache = true
 }
 
 target "api" {
@@ -25,7 +23,6 @@ target "api" {
   dockerfile = "api.Dockerfile"
   tags = ["goapp:latest", "goapp:1.0"]
   platforms = ["linux/amd64", "linux/arm64"]
-  no-cache = true
 }
 
 # target "tests" {
