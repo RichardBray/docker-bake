@@ -6,6 +6,11 @@ variable "VERSION" {
   default = "1.0"
 }
 
+function "tags" {
+  params = [project]
+  result = ["${project}:latest", "${project}:${VERSION}"]
+}
+
 target "_common" {
   context = "."
   platforms = ["linux/amd64", "linux/arm64"]
@@ -14,7 +19,7 @@ target "_common" {
 target "webapp" {
   inherits = ["_common"]
   dockerfile = "Dockerfile"
-  tags = ["bunapp:latest", "bunapp:${VERSION}"]
+  tags = tags("bunapp")
   labels = {
     "org.label-schema.name" = "bunapp"
     "org.label-schema.version" = "${VERSION}"
@@ -24,7 +29,7 @@ target "webapp" {
 target "api" {
   inherits = ["_common"]
   dockerfile = "api.Dockerfile"
-  tags = ["goapp:latest", "goapp:${VERSION}"]
+  tags = tags("goapp")
 }
 
 # target "tests" {
