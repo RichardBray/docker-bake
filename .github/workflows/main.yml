@@ -29,12 +29,12 @@ jobs:
         context: .
         no-cache: true
         platforms: linux/amd64, linux/arm64
-        file: ./frontend.Dockerfile
+        file: ./Dockerfile
         tags: |
-          nodeapp:latest
-          nodeapp:1.0
+          bunapp:latest
+          bunapp:1.0
         labels: |
-          maintainer=yourname@example.com
+          maintainer=peter@dailybugle.com
           version=1.0
 
 
