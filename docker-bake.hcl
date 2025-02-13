@@ -2,27 +2,29 @@ group "default" {
   targets = ["webapp", "api"]
 }
 
-# target "_common" {
-#   context = "."
-#   platforms = ["linux/amd64", "linux/arm64"]
-# }
+variable "VERSION" {
+  default = "1.0"
+}
 
-target "webapp" {
+target "_common" {
   context = "."
-  dockerfile = "Dockerfile"
-  tags = ["bunapp:latest", "bunapp:1.0"]
-  labels = {
-    "org.label-schema.name" = "bunapp"
-    "org.label-schema.version" = "1.0"
-  }
   platforms = ["linux/amd64", "linux/arm64"]
 }
 
+target "webapp" {
+  inherits = ["_common"]
+  dockerfile = "Dockerfile"
+  tags = ["bunapp:latest", "bunapp:${VERSION}"]
+  labels = {
+    "org.label-schema.name" = "bunapp"
+    "org.label-schema.version" = "${VERSION}"
+  }
+}
+
 target "api" {
-  context = "."
+  inherits = ["_common"]
   dockerfile = "api.Dockerfile"
-  tags = ["goapp:latest", "goapp:1.0"]
-  platforms = ["linux/amd64", "linux/arm64"]
+  tags = ["goapp:latest", "goapp:${VERSION}"]
 }
 
 # target "tests" {
