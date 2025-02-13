@@ -1,15 +1,39 @@
 group "default" {
-  targets = ["frontend", "backend"]
+  targets = ["webapp", "api"]
 }
 
-target "frontend" {
-  context = "./frontend"
-  dockerfile = "frontend.Dockerfile"
-  tags = ["myapp/frontend:latest"]
+# target "_common" {
+#   context = "."
+#   no-cache = true
+#   platforms = ["linux/amd64", "linux/arm64"]
+# }
+
+target "webapp" {
+  context = "."
+  dockerfile = "Dockerfile"
+  tags = ["bunapp:latest", "bunapp:1.0"]
+  labels = {
+    "org.label-schema.name" = "bunapp"
+    "org.label-schema.version" = "1.0"
+  }
+  platforms = ["linux/amd64", "linux/arm64"]
+  no-cache = true
 }
 
-target "backend" {
-  context = "./backend"
-  dockerfile = "backend.Dockerfile"
-  tags = ["myapp/backend:latest"]
+target "api" {
+  context = "."
+  dockerfile = "api.Dockerfile"
+  tags = ["goapp:latest", "goapp:1.0"]
+  platforms = ["linux/amd64", "linux/arm64"]
+  no-cache = true
 }
+
+# target "tests" {
+#   dockerfile = "tests.Dockerfile"
+#   contexts = {
+#     webapp = "target:webapp",
+#     api = "target:api",
+#   }
+#   output = ["type=local,dest=build/tests"]
+#   context = "."
+# }
